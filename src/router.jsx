@@ -10,20 +10,6 @@ import Notfound from "./views/notfound";
 const router = createBrowserRouter([
     { 
         path: "/",
-        element: <Guestlayout />,
-        children: [
-            { 
-                path: "/login",
-                element: <Login />
-            },
-            { 
-                path: "/register",
-                element: <Register />
-            },
-        ]
-    },
-    { 
-        path: "/",
         element: <Defaultlayout />,
 
         children: [
@@ -43,6 +29,21 @@ const router = createBrowserRouter([
             },
         ]
     },
+    { 
+        path: "/",
+        element: <Guestlayout />,
+        children: [
+            { 
+                path: "/login",
+                element: <Login />
+            },
+            { 
+                path: "/register",
+                element: <Register />
+            },
+        ]
+    },
+   
     { 
         path: "*",
         element: <Notfound />
