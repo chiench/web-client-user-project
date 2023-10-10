@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useStateContext } from '../context/ContextProvider';
+import axiosClient from '../axios/axiosConfig';
+
 
 export default function guestlayout() {
+
     const {token,setToken} = useStateContext();
-    function onSetToken () {
-        setToken('đasad')
-       }
     if(token) {
         return <Navigate to='/'/>
       }
