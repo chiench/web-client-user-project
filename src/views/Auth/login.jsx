@@ -5,7 +5,7 @@ import { useStateContext } from '../../context/ContextProvider';
 
 export default function login() {
   const [errors, setErrors] = useState(null);
-  const {setToken} = useStateContext();
+  const {setUser,setToken} = useStateContext();
   const [errorSingle, seterrorSingle] = useState(null);
   const email = useRef('');
   const newPassword = useRef('');
@@ -15,18 +15,20 @@ export default function login() {
         password: newPassword.current.value,
       }
         e.preventDefault();
-        console.log(payload)
         axiosClient.post('/login', payload)
       .then((res) => {
         if(res.status == 200) {
+          setUser(res.data.user);
           setToken(res.data.token)
         }
       })
       .catch((errors) => {
-        if(errors.response.data.error){
+        if(errors.response && errors.response.data.error){
           seterrorSingle(errors.response.data.error)
-        } else if (errors.response.data.errors) {
-          setErrors(errors.response.data.errors)
+        } else if (errors.response && errors.response.data.errors) {
+          setErrors( errors.response.data.errors)
+        } else if(! errors.response &&  errors.message) {
+          seterrorSingle(`${errors.message }. Check to connect network or port again`)
         }
       });
     }

@@ -4,7 +4,7 @@ import axiosClient from '../../axios/axiosConfig';
 import { useStateContext } from '../../context/ContextProvider';
 
 export default function register() {
-  const {setToken} = useStateContext();
+  const {setToken, setUser} = useStateContext();
     const name = useRef('');
     const email  = useRef('');
     const newPassword = useRef('');
@@ -22,11 +22,14 @@ export default function register() {
       axiosClient.post('/register', payload)
       .then((res) => {
        if(res.status == 200) {
-         setToken(res.data.token)
+        setUser(res.data.user);
+        setToken(res.data.token)
        }
       })
       .catch((errors) => {
-        setErrors(errors.response.data.errors)
+        if(errors.response) {
+          setErrors(errors.response.data.errors)
+        }
       });
     }
   return (

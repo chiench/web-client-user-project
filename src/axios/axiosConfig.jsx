@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Link, Navigate } from "react-router-dom";
 
 const axiosClient = axios.create({
    baseURL:import.meta.env.VITE_END_POINT_API,
@@ -17,11 +18,16 @@ axiosClient.interceptors.response.use((response) => {
     console.log(response, 'response trong config')
     return response
 }, (error) =>{
-    if(error.response.status === 402) {
-        localStorage.removeItem('ACCESS_TOKEN')
+    if(!error.response) {
+        alert(`${error.message } or Error Serve`)
     }
-    console.log(error, ' error trong config')
-    return Promise.reject(error);
+    if(error.response && error.response.status === 403) {
+        localStorage.removeItem('ACCESS_TOKEN')
+        window.location.reload();
+    } else {
+        return Promise.reject(error);
+    }
+  
 })
 
 export default axiosClient
