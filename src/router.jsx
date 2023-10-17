@@ -6,12 +6,13 @@ import Dashboard from "./views/dashboard";
 import Defaultlayout from "./components/defaultlayout";
 import Guestlayout from "./components/guestlayout";
 import Notfound from "./views/notfound";
+import CreateProduct from "./views/Product/createProduct";
+import UpdateProduct from "./views/Product/updateProduct";
 
 const router = createBrowserRouter([
     { 
         path: "/",
         element: <Defaultlayout />,
-
         children: [
             { 
                 
@@ -19,9 +20,18 @@ const router = createBrowserRouter([
                 element: <Navigate to="product" />
             },
             { 
-
                 path: "/product",
                 element: <Product />
+            },
+            { 
+
+                path: "/product/create",
+                element: <CreateProduct />
+            },
+            { 
+
+                path: "/product/:productId",
+                element: <UpdateProduct />
             },
             { 
                 path: "/dashboard",
