@@ -39,7 +39,8 @@ input:focus {
 .btn,
 .btn-add,
 .btn-edit,
-.btn-delete {
+.btn-delete,
+.btn-success {
     font-family: "Roboto", sans-serif;
     outline: 0;
     background: #5b08a7;
@@ -59,7 +60,9 @@ input:focus {
 
 .btn-add,
 .btn-edit,
-.btn-delete{
+.btn-delete,
+.btn-success
+{
     padding: 0.5rem 0.75rem;
     font-size: 14px;
     border-radius: 4px;
@@ -69,6 +72,9 @@ input:focus {
 }
 .btn-delete {
     background-color: #b72424;
+}
+.btn-success {
+    background-color: #17bbe4;
 }
 
 .btn-logout {
@@ -229,6 +235,18 @@ table > tbody > tr > td {
 .fadeInDown {
     -webkit-animation-name: fadeInDown;
     animation-name: fadeInDown;
+}
+.imageContainer {
+    min-height: 200px;
+    border: 4px dotted rgb(152, 218, 99);
+    padding: 4px;
+    overflow: auto;
+    margin-bottom: 10px;
+}
+.imageContainer img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
 }
 
 @keyframes fadeInDown {

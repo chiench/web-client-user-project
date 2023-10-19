@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import axiosClient from "../../axios/axiosConfig";
 
 export default function post() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [errors, setErrors] = useState(null);
-
+  const search = useRef(null);
+  useLayoutEffect(() => {
+    search.current.style.setProperty("margin", "0", "important");
+    search.current.style.setProperty("padding", "7px", "important");
+  }, []);
   useEffect(() => {
     getProduct();
   }, []);
@@ -41,6 +46,28 @@ export default function post() {
         });
     }
   }
+  function onhnadleSearch(event) {
+    setLoading(true);
+
+    console.log("searchParams: ", searchParams);
+    axiosClient
+      .get("/product", {
+        params: {
+          name: search.current.value,
+          filter: true,
+        },
+      })
+      .then((res) => {
+        setProducts(res.data.data);
+        setLoading(false);
+      })
+      .catch((errors) => {
+        setLoading(false);
+        if (errors.response && errors.response.status === 500) {
+          alert(`${errors.response.data.message}`);
+        }
+      });
+  }
   return (
     <div>
       {" "}
@@ -51,10 +78,42 @@ export default function post() {
           alignItems: "center",
         }}
       >
-        <h1>Product</h1>
-        <Link className="btn-add" to="/product/create">
-          Add new product
-        </Link>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h1
+            style={{
+              marginRight: "20px",
+            }}
+          >
+            Product
+          </h1>
+          <Link className="btn-add" to="/product/create">
+            Add new product
+          </Link>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <input ref={search} type="text" />
+          <button
+            style={{
+              marginLeft: "20px",
+            }}
+            className="btn-success"
+            onClick={() => onhnadleSearch()}
+          >
+            Search
+          </button>
+        </div>
       </div>
       <div className="card animated fadeInDown">
         {errors && (
@@ -94,7 +153,7 @@ export default function post() {
                   <td>
                     {" "}
                     <img
-                      src={`${import.meta.env.VITE_END_POINT}/product${
+                      src={`${import.meta.env.VITE_END_POINT}/images/${
                         product.image
                       }`}
                       width={70}
